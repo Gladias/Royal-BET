@@ -31,7 +31,7 @@ function Login() {
                 </Button>
             </Form>
 
-            <div className="register">
+            <div className="registerLink">
                 <h5>First time? </h5>
                 <a href="#"> Join us today <FontAwesomeIcon icon={faSignInAlt} /> </a>
             </div> 
