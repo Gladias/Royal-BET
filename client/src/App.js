@@ -1,6 +1,6 @@
-import './App.css';
-import Header from './header/Header';
-import Login from './login/Login';
+import './App.css'
+import Header from './header/Header'
+import Login from './login/Login'
 
 function App() {
   return (

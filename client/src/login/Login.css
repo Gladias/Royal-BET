@@ -1,5 +1,5 @@
 .main {
-    background-image: url('./prism.png');
+    background-image: url('../assets/prism.png');
     background-repeat: repeat;
     width: 100%;
     height: 88%;
@@ -10,43 +10,22 @@
     align-items: center;
 }
 
-.loginForm {
-    background-image: url('./money.png');
-    background-repeat: repeat;
-    border: 2px solid #EBCA33;
-    border-radius: 2rem;
-    height: 70%;
-    width: 40%;
-    
-
+.register {
+    margin-top: 2rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     align-items: center;
-
-    font-family: "Futura Italic";
-    color: #EBCA33;
-    font-size: 1.5rem;
 }
 
-.loginForm h1, .loginForm button {
-    font-family: "Futura EB";
+.register h5 {
+    color:white;
+    font-size: 1.1rem;
 }
 
-.loginForm h1 {
+.register a {
+    font-size: 1.3rem;
+}
+
+.register a:hover {
     color: #ffc107;
-}
-
-.loginForm div {
-    width: 60%;
-}
-
-.form-control:focus {
-    border-color: #ffc107;
-    box-shadow: 0.2rem 0.2rem 0.2rem #ffc107;
-}
-
-.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
-    background-color: #ffc107;
-    border-color: #000000;
 }

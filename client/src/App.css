@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'Futura EB';
-  src: url(./fonts/Futura_Extra_Black.ttf) format('truetype');
+  src: url(./assets/Futura_Extra_Black.ttf) format('truetype');
 }
 
 @font-face {
   font-family: 'Futura Italic';
-  src: url(./fonts/Futura_Book_Italic.ttf) format('truetype');
+  src: url(./assets/Futura_Book_Italic.ttf) format('truetype');
 }
 
 #root {

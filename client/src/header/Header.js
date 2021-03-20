@@ -1,5 +1,5 @@
 import './Header.css';
-import logo from './logo.png';
+import logo from '../assets/logo.png';
 import Navbar from 'react-bootstrap/Navbar';
 
 function Header() {

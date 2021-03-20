@@ -1,0 +1,51 @@
+.authForm {
+    background-image: url('../assets/money.png');
+    background-repeat: repeat;
+    border: 2px solid #EBCA33;
+    border-radius: 2rem;
+    height: 70%;
+    width: 40%;
+    
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    font-family: "Futura Italic";
+    color: #EBCA33;
+    font-size: 1.5rem;
+}
+
+.form-group a, .register a {
+    font-size: 1.1rem;
+    color: white;
+    text-decoration: underline;
+    text-decoration-color: #EBCA33;
+}
+
+.form-group a:hover .register a:hover {
+    color: #ffc107;
+}
+
+.authForm h1, .authForm button {
+    font-family: "Futura EB";
+}
+
+.authForm h1 {
+    color: #ffc107;
+}
+
+.authForm div {
+    width: 60%;
+}
+
+.form-control:focus {
+    border-color: #ffc107;
+    box-shadow: 0.2rem 0.2rem 0.2rem #ffc107;
+}
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #ffc107;
+    border-color: #000000;
+}
