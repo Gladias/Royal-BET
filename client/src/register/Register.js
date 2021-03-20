@@ -15,7 +15,7 @@ function Register() {
                 <InputRow id="password" label="Password" placeholder="Enter password"/>
                 <InputRow id="password" label="Password" placeholder="Repeat password"/>
 
-                <InputRow id="email" label="E-mail" placeholder="Enter e-mail"/>
+                <InputRow id="email" label="Email" placeholder="Enter email"/>
 
                 <CheckBox id="termsCheckbox" label="I accept the terms of service" />
 
