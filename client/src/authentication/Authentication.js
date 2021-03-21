@@ -1,5 +1,6 @@
-import './Authentication.css'
-import Form from 'react-bootstrap/Form'
+import './Authentication.css';
+import Form from 'react-bootstrap/Form';
+import { Link } from 'react-router-dom';
 
 function FormControl(props) {
     if (props.helpText) {
@@ -18,7 +19,7 @@ function FormControl(props) {
 }
 
 export function InputRow(props) {
-    const containsHelpText = props.helpText
+    const containsHelpText = props.helpText;
     const containsLink = props.link;
 
     return (
@@ -28,9 +29,9 @@ export function InputRow(props) {
             <FormControl {...props} />
 
             {containsLink &&
-                <a href={props.link.address}>
+                <Link to={props.link.address}>
                     {props.link.message}
-                </a>
+                </Link>
             }
         </Form.Group>
     );

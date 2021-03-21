@@ -1,8 +1,8 @@
-import './Register.css'
-import { InputRow, CheckBox } from '../authentication/Authentication'
+import './Register.css';
+import { InputRow, CheckBox } from '../authentication/Authentication';
 
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 function Register() {
     return (

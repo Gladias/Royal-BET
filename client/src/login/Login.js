@@ -1,17 +1,16 @@
-import './Login.css'
-import '../authentication/Authentication.css'
-import { InputRow, CheckBox } from '../authentication/Authentication'
-
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSignInAlt } from '@fortawesome/free-solid-svg-icons'
+import './Login.css';
+import '../authentication/Authentication.css';
+import { InputRow, CheckBox } from '../authentication/Authentication';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
 function Login() {
 
     const passwordLink = {
-        address: "#",
+        address: "/reset-password",
         message: "Forgot your password?"
     };
 
@@ -33,7 +32,7 @@ function Login() {
 
             <div className="registerLink">
                 <h5>First time? </h5>
-                <a href="#"> Join us today <FontAwesomeIcon icon={faSignInAlt} /> </a>
+                <Link to="/register"> Join us today <FontAwesomeIcon icon={faSignInAlt} /> </Link>
             </div> 
         </div>
     );
