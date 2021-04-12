@@ -6,10 +6,11 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
+
 @Data
 @NoArgsConstructor
-public class Bet {
+@Entity(name = "bets")
+public class BetEntity {
 
     @Id
     @GeneratedValue
@@ -22,9 +23,9 @@ public class Bet {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity user;
 
     @ManyToOne
     @JoinColumn(name = "game_id")
-    private Game game;
+    private GameEntity game;
 }

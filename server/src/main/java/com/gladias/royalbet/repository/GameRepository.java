@@ -1,7 +1,9 @@
 package com.gladias.royalbet.repository;
 
-import com.gladias.royalbet.model.Game;
+import com.gladias.royalbet.model.GameEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface GameRepository extends JpaRepository<Game, Long> {
+
+public interface GameRepository extends JpaRepository<GameEntity, Long> {
+
 }

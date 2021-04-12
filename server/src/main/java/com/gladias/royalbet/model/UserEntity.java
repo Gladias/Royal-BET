@@ -6,11 +6,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity
 @Data
 @NoArgsConstructor
-@Table(name="users")
-public class User {
+@Entity(name = "users")
+public class UserEntity {
 
     @Id
     @GeneratedValue
@@ -19,9 +18,5 @@ public class User {
     private String login;
 
     @OneToMany(mappedBy = "user")
-    private Set<Bet> bets;
-
-    public User(String login) {
-        this.login = login;
-    }
+    private Set<BetEntity> bets;
 }

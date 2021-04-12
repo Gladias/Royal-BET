@@ -1,5 +1,6 @@
 package com.gladias.royalbet.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,10 +11,11 @@ import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Entity
+
 @Data
 @NoArgsConstructor
-public class Game {
+@Entity(name = "games")
+public class GameEntity {
 
     @Id
     @GeneratedValue
@@ -27,12 +29,6 @@ public class Game {
     private Double liveOdds;
 
     @OneToMany(mappedBy = "game")
-    private Set<Bet> bets;
-
-    public Game(LocalDateTime time, String hostTeam, String visitorsTeam, Double liveOdds) {
-        this.time = time;
-        this.hostTeam = hostTeam;
-        this.visitorsTeam = visitorsTeam;
-        this.liveOdds = liveOdds;
-    }
+    @JsonIgnore
+    private Set<BetEntity> bets;
 }
