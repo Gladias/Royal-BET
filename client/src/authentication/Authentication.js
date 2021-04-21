@@ -6,14 +6,14 @@ function FormControl(props) {
     if (props.helpText) {
         return (
             <>
-            <Form.Control placeholder={props.placeholder} required aria-describedby={`${props.label}HelpBlock`} />
-            <Form.Text id={`${props.label}HelpBlock`} muted>{props.helpText.content}</Form.Text>
+                <Form.Control value={props.value} type={props.type} onChange={props.onChange} placeholder={props.placeholder} required aria-describedby={`${props.label}HelpBlock`} />
+                <Form.Text id={`${props.label}HelpBlock`} muted>{props.helpText.content}</Form.Text>
             </>
         );
 
     } else {
         return (
-            <Form.Control placeholder={props.placeholder} required />
+            <Form.Control value={props.value} type={props.type} onChange={props.onChange} placeholder={props.placeholder} required />
         );
     }
 }
@@ -40,7 +40,7 @@ export function InputRow(props) {
 export function CheckBox(props) {
     return (
         <Form.Group className="form-checkbox" controlId={props.id}>
-            <Form.Check custom type="checkbox" label={props.label} />
+            <Form.Check custom type="checkbox" label={props.label} required/>
         </Form.Group>
     );
 }
