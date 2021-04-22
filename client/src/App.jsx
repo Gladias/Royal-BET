@@ -1,9 +1,10 @@
 import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Header from './header/Header';
 import Login from './login/Login';
 import Register from './register/Register';
 import ResetPassword from './ResetPassword/ResetPassword';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 function App() {
   return (

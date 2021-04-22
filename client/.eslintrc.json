@@ -18,5 +18,9 @@
         "react"
     ],
     "rules": {
+        "max-len" : [2, 120],
+        "react/prop-types": "off",
+        "object-curly-newline": "off",
+        "react/jsx-props-no-spreading": "off"
     }
 }
