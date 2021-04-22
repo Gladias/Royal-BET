@@ -10,69 +10,59 @@ import BASE_API_URL from '../constants/const';
 import { InputRow, CheckBox } from '../authentication/Authentication';
 
 function RegistrationForm() {
-  const [state, setState] = useState({
+  const [credentials, setCredentials] = useState({
     login: '',
     password: '',
     passwordConfirm: '',
     email: '',
-    errorMessage: '',
+  });
+
+  const [error, setError] = useState({
+    message: '',
   });
 
   const history = useHistory();
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setState((prevState) => ({
+    setCredentials((prevState) => ({
       ...prevState,
       [id]: value,
     }));
   };
 
   const isFormValid = () => {
-    let message;
+    let errorMessage;
 
-    if (state.password !== state.passwordConfirm) {
-      message = 'Provided passwords do not match';
-    } else if (!(state.login.length >= 2 && state.login.length <= 30)) {
-      message = 'Login must contain between 2 to 30 characters';
+    if (credentials.password !== credentials.passwordConfirm) {
+      errorMessage = 'Provided passwords do not match';
+    } else if (!(credentials.login.length >= 2 && credentials.login.length <= 30)) {
+      errorMessage = 'Login must contain between 2 to 30 characters';
     }
 
-    if (message) {
-      setState((prevState) => ({
-        ...prevState,
-        errorMessage: message,
-      }));
+    if (errorMessage) {
+      setError(() => ({ errorMessage }));
       return false;
     }
     return true;
   };
 
   const sendForm = () => {
-    const payload = {
-      login: state.login,
-      password: state.password,
-      passwordConfirm: state.passwordConfirm,
-      email: state.email,
-    };
-
-    axios.post(`${BASE_API_URL}/auth/register`, payload)
+    axios.post(`${BASE_API_URL}/auth/register`, credentials)
       .then(() => {
         history.push('/');
       })
-      .catch((error) => {
-        let message = '';
+      .catch((e) => {
+        let errorMessage = '';
 
-        if (error.response.data.errors) {
-          const { field, defaultMessage } = error.response.data.errors[0];
-          message = `${field} ${defaultMessage}`;
+        if (e.response.data.errors) {
+          const { field, defaultMessage } = e.response.data.errors[0];
+          errorMessage = `${field} ${defaultMessage}`;
         } else {
-          message = error.response.data.message;
+          errorMessage = e.response.data.message;
         }
 
-        setState((prevState) => ({
-          ...prevState,
-          errorMessage: message,
-        }));
+        setError(() => ({ errorMessage }));
       });
   };
 
@@ -88,11 +78,11 @@ function RegistrationForm() {
     <div className="main">
       <Form className="authForm registrationForm" onSubmit={handleSubmit}>
         <h1>Register</h1>
-        <InputAlert errorMessage={state.errorMessage} />
+        <InputAlert errorMessage={error.message} />
 
         <InputRow
           id="login"
-          value={state.login}
+          value={credentials.login}
           onChange={handleChange}
           label="Username"
           placeholder="Enter username"
@@ -101,7 +91,7 @@ function RegistrationForm() {
         <InputRow
           id="password"
           type="password"
-          value={state.password}
+          value={credentials.password}
           onChange={handleChange}
           label="Password"
           placeholder="Enter password"
@@ -110,13 +100,19 @@ function RegistrationForm() {
         <InputRow
           id="passwordConfirm"
           type="password"
-          value={state.passwordConfirm}
+          value={credentials.passwordConfirm}
           onChange={handleChange}
           label="Repeat Password"
           placeholder="Repeat password"
         />
 
-        <InputRow id="email" value={state.email} onChange={handleChange} label="Email" placeholder="Enter email" />
+        <InputRow
+          id="email"
+          value={credentials.email}
+          onChange={handleChange}
+          label="Email"
+          placeholder="Enter email"
+        />
 
         <CheckBox id="termsCheckbox" label="I accept the terms of service" />
 
