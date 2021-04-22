@@ -23,5 +23,4 @@ public class GameResponse {
                 entity.getVisitorsTeam(),
                 entity.getLiveOdds());
     }
-
 }

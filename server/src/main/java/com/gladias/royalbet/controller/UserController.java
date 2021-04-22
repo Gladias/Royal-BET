@@ -3,7 +3,7 @@ package com.gladias.royalbet.controller;
 
 import com.gladias.royalbet.exception.NoPasswordMatchException;
 import com.gladias.royalbet.exception.UserAlreadyExistException;
-import com.gladias.royalbet.payload.UserDto;
+import com.gladias.royalbet.payload.RegisterRequest;
 import com.gladias.royalbet.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,9 +23,9 @@ public class UserController {
     private final UserService service;
 
     @PostMapping("/register")
-    public void registerUserAccount(@RequestBody @Valid UserDto userDto) {
+    public void registerUserAccount(@RequestBody @Valid RegisterRequest registerRequest) {
         try {
-            service.registerUserAccount(userDto);
+            service.registerUserAccount(registerRequest);
         } catch (UserAlreadyExistException | NoPasswordMatchException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }

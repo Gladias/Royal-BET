@@ -28,8 +28,6 @@ public class JsonAuthFilter extends UsernamePasswordAuthenticationFilter {
 
             LoginRequest authRequest = objectMapper.readValue(sb.toString(), LoginRequest.class);
 
-            System.out.println(new BCryptPasswordEncoder().encode(authRequest.getPassword()));
-
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                     authRequest.getLogin(), authRequest.getPassword()
             );

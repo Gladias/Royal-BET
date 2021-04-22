@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
-public class UserDto {
+public class RegisterRequest {
 
     @NotBlank
     @Size(min = 2, max = 20)
@@ -17,7 +17,7 @@ public class UserDto {
     private String password;
 
     @NotBlank
-    private String passwordRepeat;
+    private String passwordConfirm;
 
     @Email
     private String email;
