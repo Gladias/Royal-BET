@@ -39,9 +39,9 @@ function Login() {
   };
 
   const sendForm = () => {
-    axios.post(`${BASE_API_URL}/auth/login`, credentials)
+    axios.post(`${BASE_API_URL}/auth/login`, credentials, { withCredentials: true })
       .then((response) => {
-        console.log(response.headers.authorization);
+        console.log(response);
         history.push('/');
       })
       .catch(() => {
