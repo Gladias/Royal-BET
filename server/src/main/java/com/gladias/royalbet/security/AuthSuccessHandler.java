@@ -8,6 +8,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -16,10 +17,10 @@ import java.util.Date;
 @Component
 public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final Long expirationTime;
+    private final Integer expirationTime;
     private final String secret;
 
-    public AuthSuccessHandler(@Value("${jwt.expirationTime}") Long expirationTime,
+    public AuthSuccessHandler(@Value("${jwt.expirationTime}") Integer expirationTime,
                               @Value("${jwt.secret}") String secret) {
         this.expirationTime = expirationTime;
         this.secret = secret;
@@ -35,6 +36,11 @@ public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
                 .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime))
                 .sign(Algorithm.HMAC256(secret));
 
-        response.addHeader("Authorization", "Bearer " + token);
+        Cookie jwtCookie = new Cookie("token", token);
+
+        jwtCookie.setHttpOnly(true);
+        jwtCookie.setMaxAge(60*60);
+
+        response.addCookie(jwtCookie);
     }
 }
