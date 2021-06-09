@@ -1,4 +1,5 @@
 -- Insert games
+
 insert into games (id, time, host_team, visitors_team, live_odds) values (1, '2021-01-20 07:41:09', 'Skyndu', 'Keeling-Heaney', 2.46);
 insert into games (id, time, host_team, visitors_team, live_odds) values (2, '2020-06-26 09:34:30', 'Quatz', 'Hackett, Hudson and Rippin', 3.33);
 insert into games (id, time, host_team, visitors_team, live_odds) values (3, '2020-08-14 09:31:02', 'Mita', 'Rodriguez-Harris', 3.9);
@@ -99,7 +100,6 @@ insert into games (id, time, host_team, visitors_team, live_odds) values (97, '2
 insert into games (id, time, host_team, visitors_team, live_odds) values (98, '2020-04-24 15:53:39', 'Kimia', 'Koepp-Pacocha', 1.94);
 insert into games (id, time, host_team, visitors_team, live_odds) values (99, '2020-08-08 22:25:20', 'Photospace', 'Zemlak-Schinner', 4.86);
 insert into games (id, time, host_team, visitors_team, live_odds) values (100, '2020-04-12 18:58:39', 'Twimm', 'Mertz, Swaniawski and Moen', 4.73);
-
 -- Insert users
 insert into users (id, login, password, email) values (DEFAULT, 'Blondie', '$2a$10$O5K4L8ePbvTpltl.4tgTyeMpoIi.GljRUea74JK2m2K.aVlYuIRUG', 'bgillise0@wunderground.com');
 insert into users (id, login, password, email) values (DEFAULT, 'Pryce', '9kqrXhnZY0', 'ppyburn1@posterous.com');

@@ -54,7 +54,7 @@ function RegistrationForm() {
       })
       .catch((e) => {
         let errorMessage = '';
-
+        console.log(e.response.data);
         if (e.response.data.errors) {
           const { field, defaultMessage } = e.response.data.errors[0];
           errorMessage = `${field} ${defaultMessage}`;

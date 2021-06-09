@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import './Login.css';
 import '../authentication/Authentication.css';
 
@@ -9,11 +10,12 @@ import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
+import Cookies from 'js-cookie';
 import InputAlert from '../alert/Alert';
 import BASE_API_URL from '../constants/const';
 import { InputRow, CheckBox } from '../authentication/Authentication';
 
-function Login() {
+function Login(props) {
   const [credentials, setCredentials] = useState({
     login: '',
     password: '',
@@ -22,6 +24,8 @@ function Login() {
   const [error, setError] = useState({
     message: '',
   });
+
+  const { setToken } = props;
 
   const passwordLink = {
     address: '/reset-password',
@@ -42,6 +46,7 @@ function Login() {
     axios.post(`${BASE_API_URL}/auth/login`, credentials, { withCredentials: true })
       .then((response) => {
         console.log(response);
+        setToken(Cookies.get('token'));
         history.push('/');
       })
       .catch(() => {

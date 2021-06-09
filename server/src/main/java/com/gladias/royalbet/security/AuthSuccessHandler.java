@@ -38,8 +38,9 @@ public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
         Cookie jwtCookie = new Cookie("token", token);
 
-        jwtCookie.setHttpOnly(true);
+        //jwtCookie.setHttpOnly(true);
         jwtCookie.setMaxAge(60*60);
+        jwtCookie.setPath("/");
 
         response.addCookie(jwtCookie);
     }
