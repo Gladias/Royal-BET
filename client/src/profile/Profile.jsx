@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import BASE_API_URL from '../constants/const';
 import styles from './Profile.module.css';
 
 function ProfileBet(props) {
@@ -45,16 +47,20 @@ function ProfilePage() {
     balance: 14.54,
   };
 
+  useEffect(async () => {
+    axios.get(`${BASE_API_URL}/bets`)
+      .then((e) => {
+        console.log(e);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  });
+
   const game1 = {
     id: 1,
     league: 'Champions League',
     host: 'Juventus',
-    visitors: 'Porto',
-    odds: {
-      host: 1.47,
-      tie: 2.05,
-      visitors: 2.56,
-    },
   };
 
   const bet = {

@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import static com.gladias.royalbet.service.UserService.getUsernameFromToken;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/bets")
@@ -13,17 +15,18 @@ public class BetController {
 
     private final BetService service;
 
-    @GetMapping
+    @GetMapping("/all")
     public Page<BetResponse> getAllBets(@RequestParam(defaultValue = "0") Integer page,
                                         @RequestParam(defaultValue = "20") Integer size) {
 
         return service.getAllBets(page, size);
     }
 
-    @GetMapping("/user/{userId}")
-    public Page<BetResponse> getUserBets(@PathVariable Long userId,
+    @GetMapping
+    public Page<BetResponse> getUserBets(@CookieValue("token") String token,
                                          @RequestParam(defaultValue = "0") Integer page,
                                          @RequestParam(defaultValue = "20") Integer size) {
-        return service.getUserBets(userId, page, size);
+
+        return service.getUserBets(getUsernameFromToken(token), page, size);
     }
 }

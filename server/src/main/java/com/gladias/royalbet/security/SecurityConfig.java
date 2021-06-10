@@ -33,8 +33,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http
+                .anonymous()
+                .and()
                 .authorizeRequests()
-                .antMatchers("/api/games/**").permitAll()
+                .antMatchers("/api/games**").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

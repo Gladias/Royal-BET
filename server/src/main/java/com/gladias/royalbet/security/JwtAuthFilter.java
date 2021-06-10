@@ -2,6 +2,7 @@ package com.gladias.royalbet.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,14 +10,14 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class JwtAuthFilter extends BasicAuthenticationFilter {
 
-    private static final String TOKEN_HEADER = "Authorization";
-    private static final String TOKEN_PREFIX = "Bearer ";
     private final CustomUserDetailsService customUserDetailsService;
     private final String secret;
 
@@ -44,20 +45,24 @@ public class JwtAuthFilter extends BasicAuthenticationFilter {
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        String token = request.getHeader(TOKEN_HEADER);
+        try {
+            Cookie cookie = Arrays
+                .stream(request.getCookies())
+                .filter(c -> c.getName().equals("token"))
+                .findFirst()
+                .get();
 
-        if (token != null && token.startsWith(TOKEN_PREFIX)) {
+            String token = cookie.getValue();
+
             String login = JWT.require(Algorithm.HMAC256(secret))
-                    .build()
-                    .verify(token.replace(TOKEN_PREFIX, ""))
-                    .getSubject();
+                .build()
+                .verify(token)
+                .getSubject();
 
-            if (login != null) {
-                UserPrincipal userDetails = (UserPrincipal) customUserDetailsService.loadUserByUsername(login);
-                return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
-            }
+            UserPrincipal userDetails = (UserPrincipal) customUserDetailsService.loadUserByUsername(login);
+            return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
+        } catch (Exception e) {
+            return null;
         }
-
-        return null;
     }
 }

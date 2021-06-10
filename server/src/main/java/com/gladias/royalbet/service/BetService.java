@@ -30,10 +30,10 @@ public class BetService {
         return new PageImpl<>(response);
     }
 
-    public Page<BetResponse> getUserBets(Long userId, Integer page, Integer size) {
+    public Page<BetResponse> getUserBets(String userLogin, Integer page, Integer size) {
         Pageable requestPage = PageRequest.of(page, size);
 
-        List<BetResponse> response = repository.findAllByUser_id(userId, requestPage).stream().map(
+        List<BetResponse> response = repository.findAllByUserLogin(userLogin, requestPage).stream().map(
                 BetResponse::of
         ).collect(Collectors.toList());
 

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import nextId from 'react-id-generator';
 import Form from 'react-bootstrap/Form';
+import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFutbol, faBasketballBall, faCar, faTrash } from '@fortawesome/free-solid-svg-icons';
+import BASE_API_URL from '../constants/const';
 import styles from './Main.module.css';
 
 function CategoryButton(props) {
@@ -17,19 +19,21 @@ function CategoryButton(props) {
 }
 
 function GameRow(props) {
-  const { game, game: { league, host, visitors, odds }, onClick } = props;
-  const [hostWin, tie, visitorsWin] = Object.values(odds);
+  console.log(props);
+  const { game, game: { hostTeam, visitorsTeam }, onClick } = props;
+  // const [hostWin, tie, visitorsWin] = Object.values(liveOdds);
+  const [hostWin, tie, visitorsWin] = [1, 2, 3];
 
   return (
     <div className={styles['game-row']}>
       <div className={styles.league}>
-        <p>{league}</p>
+        <p>Liga</p>
       </div>
       <div className={styles.teams}>
         <h4>
-          {host}
+          {hostTeam}
           {' - '}
-          {visitors}
+          {visitorsTeam}
         </h4>
       </div>
       <div className={styles.score}>1-0</div>
@@ -38,16 +42,16 @@ function GameRow(props) {
       </div>
       <div className={styles.result}>
         <div>
-          <p>{host}</p>
-          <button onClick={() => onClick(game, host)} type="button">{hostWin}</button>
+          <p>{hostTeam}</p>
+          <button onClick={() => onClick(game, hostTeam)} type="button">{hostWin}</button>
         </div>
         <div>
           <p>Tie</p>
           <button onClick={() => onClick(game, 'Tie')} type="button">{tie}</button>
         </div>
         <div>
-          <p>{visitors}</p>
-          <button onClick={() => onClick(game, visitors)} type="button">{visitorsWin}</button>
+          <p>{visitorsTeam}</p>
+          <button onClick={() => onClick(game, visitorsTeam)} type="button">{visitorsWin}</button>
         </div>
       </div>
     </div>
@@ -84,7 +88,9 @@ function BetRow(props) {
 function MainPage() {
   const [possibleWinnings, setPossibleWinnings] = useState(0);
   const [bets, setBets] = useState([]);
+  const [games, setGames] = useState([]);
 
+  /*
   const game1 = {
     id: 1,
     league: 'Champions League',
@@ -95,7 +101,28 @@ function MainPage() {
       tie: 2.05,
       visitors: 2.56,
     },
+  }; */
+
+  const mapGames = (rawGames) => {
+    rawGames.forEach((game) => {
+      setGames((prevState) => ([
+        ...prevState,
+        game,
+      ]));
+    });
+
+    console.log(games);
   };
+
+  useEffect(() => {
+    axios.get(`${BASE_API_URL}/games`)
+      .then((e) => {
+        mapGames(e.data.content);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
 
   useEffect(() => {
     // Calculate accumulated possible winnings for bets
@@ -152,9 +179,7 @@ function MainPage() {
         </div>
 
         <div className={styles.games}>
-          <GameRow game={game1} onClick={createBet} />
-          <GameRow game={game1} onClick={createBet} />
-          <GameRow game={game1} onClick={createBet} />
+          {games.map((game) => <GameRow key={game.id} game={game} onClick={createBet} />)}
         </div>
       </div>
       <div className={styles['second-column']}>

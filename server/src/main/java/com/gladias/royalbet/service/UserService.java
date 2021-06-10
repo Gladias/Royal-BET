@@ -1,15 +1,19 @@
 package com.gladias.royalbet.service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.gladias.royalbet.exception.NoPasswordMatchException;
 import com.gladias.royalbet.exception.UserAlreadyExistException;
 import com.gladias.royalbet.model.UserEntity;
 import com.gladias.royalbet.payload.RegisterRequest;
 import com.gladias.royalbet.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
+import java.util.Base64;
 
 @RequiredArgsConstructor
 @Service
@@ -35,5 +39,12 @@ public class UserService {
                 .build();
 
         repository.save(user);
+    }
+
+    public static String getUsernameFromToken(String jwtToken) {
+        return JWT.require(Algorithm.HMAC256("testSecret"))
+            .build()
+            .verify(jwtToken)
+            .getSubject();
     }
 }
