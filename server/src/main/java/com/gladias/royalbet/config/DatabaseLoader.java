@@ -46,7 +46,7 @@ public class DatabaseLoader implements CommandLineRunner {
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://api-nba-v1.p.rapidapi.com/games/date/" + requestDate))
-                    .header("x-rapidapi-key", "1b466ae61bmsh181cc3a1e8f8933p1308e9jsn5246869d6284")
+                    .header("x-rapidapi-key", "")
                     .header("x-rapidapi-host", "api-nba-v1.p.rapidapi.com")
                     .method("GET", HttpRequest.BodyPublishers.noBody())
                     .build();
