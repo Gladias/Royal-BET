@@ -1,13 +1,11 @@
 package com.gladias.royalbet.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -26,9 +24,19 @@ public class GameEntity {
     private String hostTeam;
     private String visitorsTeam;
 
-    private Double liveOdds;
+    @Builder
+    public GameEntity(LocalDateTime time, String hostTeam, String visitorsTeam, OddsEntity odds) {
+        this.time = time;
+        this.hostTeam = hostTeam;
+        this.visitorsTeam = visitorsTeam;
+        this.odds = odds;
+    }
 
     @OneToMany(mappedBy = "game")
     @JsonIgnore
     private Set<BetEntity> bets;
+
+    @OneToOne
+    @JoinColumn(name = "odds_id")
+    private OddsEntity odds;
 }

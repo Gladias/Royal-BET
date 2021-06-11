@@ -19,15 +19,15 @@ function CategoryButton(props) {
 }
 
 function GameRow(props) {
-  console.log(props);
   const { game, game: { hostTeam, visitorsTeam }, onClick } = props;
-  // const [hostWin, tie, visitorsWin] = Object.values(liveOdds);
-  const [hostWin, tie, visitorsWin] = [1, 2, 3];
+  const { odds: { hostWinOdds, tieOdds, visitorsWinOdds } } = game;
+
+  // <div className={styles.score}>1-0</div>
 
   return (
     <div className={styles['game-row']}>
       <div className={styles.league}>
-        <p>Liga</p>
+        <p>NBA</p>
       </div>
       <div className={styles.teams}>
         <h4>
@@ -36,22 +36,21 @@ function GameRow(props) {
           {visitorsTeam}
         </h4>
       </div>
-      <div className={styles.score}>1-0</div>
       <div className={styles['result-title']}>
         <h4>Winner</h4>
       </div>
       <div className={styles.result}>
         <div>
           <p>{hostTeam}</p>
-          <button onClick={() => onClick(game, hostTeam)} type="button">{hostWin}</button>
+          <button onClick={() => onClick(game, hostTeam)} type="button">{hostWinOdds}</button>
         </div>
         <div>
           <p>Tie</p>
-          <button onClick={() => onClick(game, 'Tie')} type="button">{tie}</button>
+          <button onClick={() => onClick(game, 'Tie')} type="button">{tieOdds}</button>
         </div>
         <div>
           <p>{visitorsTeam}</p>
-          <button onClick={() => onClick(game, visitorsTeam)} type="button">{visitorsWin}</button>
+          <button onClick={() => onClick(game, visitorsTeam)} type="button">{visitorsWinOdds}</button>
         </div>
       </div>
     </div>

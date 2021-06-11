@@ -1,6 +1,7 @@
 package com.gladias.royalbet.payload;
 
 import com.gladias.royalbet.model.GameEntity;
+import com.gladias.royalbet.model.OddsEntity;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -14,13 +15,13 @@ public class GameResponse {
     private final String hostTeam;
     private final String visitorsTeam;
 
-    private final Double liveOdds;
+    private final OddsEntity odds;
 
     public static GameResponse of(GameEntity entity) {
         return new GameResponse(entity.getId(),
                 entity.getTime(),
                 entity.getHostTeam(),
                 entity.getVisitorsTeam(),
-                entity.getLiveOdds());
+                entity.getOdds());
     }
 }

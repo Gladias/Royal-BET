@@ -4,6 +4,7 @@ package com.gladias.royalbet.service;
 import com.gladias.royalbet.model.GameEntity;
 import com.gladias.royalbet.payload.GameResponse;
 import com.gladias.royalbet.repository.GameRepository;
+import com.gladias.royalbet.repository.OddsRepository;
 import javassist.NotFoundException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +21,13 @@ import java.util.stream.Collectors;
 @Service
 public class GameService {
 
-    private final GameRepository repository;
+    private final GameRepository gameRepository;
+    private final OddsRepository oddsRepository;
 
     public Page<GameResponse> getAllGames(Integer page, Integer size) {
         Pageable requestPage = PageRequest.of(page, size);
 
-        List<GameResponse> response = repository.findAll(requestPage).stream().map(
+        List<GameResponse> response = gameRepository.findAll(requestPage).stream().map(
                 GameResponse::of
         ).collect(Collectors.toList());
 
@@ -33,7 +35,7 @@ public class GameService {
     }
 
     public GameResponse getGameById(@NonNull Long id) throws NotFoundException {
-        GameEntity gameEntity = repository.findById(id)
+        GameEntity gameEntity = gameRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Game with id: " + id + " not found"));
 
         return GameResponse.of(gameEntity);
