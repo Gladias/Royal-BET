@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.gladias.royalbet.exception.NoPasswordMatchException;
 import com.gladias.royalbet.exception.UserAlreadyExistException;
 import com.gladias.royalbet.model.UserEntity;
+import com.gladias.royalbet.payload.BalanceRequest;
 import com.gladias.royalbet.payload.RegisterRequest;
 import com.gladias.royalbet.payload.UserDto;
 import com.gladias.royalbet.repository.UserRepository;
@@ -51,6 +52,12 @@ public class UserService {
                 .money(50.0)
                 .build();
 
+        repository.save(user);
+    }
+
+    public void increaseBalance(String username, BalanceRequest request) {
+        UserEntity user = repository.findByLogin(username).get();
+        user.setMoney(request.getBalance());
         repository.save(user);
     }
 

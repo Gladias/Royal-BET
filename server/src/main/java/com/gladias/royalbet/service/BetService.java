@@ -2,12 +2,14 @@ package com.gladias.royalbet.service;
 
 
 import com.gladias.royalbet.model.BetEntity;
+import com.gladias.royalbet.model.BetStatusEntity;
 import com.gladias.royalbet.model.GameEntity;
 import com.gladias.royalbet.model.UserEntity;
 import com.gladias.royalbet.payload.BetResponse;
 import com.gladias.royalbet.payload.GameResponse;
 import com.gladias.royalbet.payload.SingleBet;
 import com.gladias.royalbet.repository.BetRepository;
+import com.gladias.royalbet.repository.BetStatusRepository;
 import com.gladias.royalbet.repository.GameRepository;
 import com.gladias.royalbet.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,7 @@ public class BetService {
     private final BetRepository betRepository;
     private final GameRepository gameRepository;
     private final UserRepository userRepository;
+    private final BetStatusRepository betStatusRepository;
 
     public Page<BetResponse> getAllBets(Integer page, Integer size) {
         Pageable requestPage = PageRequest.of(page, size);
@@ -52,6 +55,7 @@ public class BetService {
     public void addBet(String userLogin, SingleBet requestBet) {
         UserEntity user = userRepository.findByLogin(userLogin).get();
         GameEntity game = gameRepository.findById(requestBet.getGameId()).get();
+        BetStatusEntity betStatusEntity = new BetStatusEntity("Ongoing");
 
         BetEntity bet = BetEntity.builder()
                 .placedAt(LocalDateTime.now())
@@ -59,8 +63,10 @@ public class BetService {
                 .winner(requestBet.getWinner())
                 .game(game)
                 .user(user)
+                .status(betStatusEntity)
                 .build();
 
+        betStatusRepository.save(betStatusEntity);
         betRepository.save(bet);
     }
 }

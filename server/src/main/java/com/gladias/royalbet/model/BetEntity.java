@@ -30,12 +30,18 @@ public class BetEntity {
     @JoinColumn(name = "game_id")
     private GameEntity game;
 
+    @OneToOne
+    @JoinColumn(name = "status_id")
+    private BetStatusEntity status;
+
     @Builder
-    public BetEntity(LocalDateTime placedAt, Double stake, String winner, UserEntity user, GameEntity game) {
+    public BetEntity(LocalDateTime placedAt, Double stake, String winner,
+                     UserEntity user, GameEntity game, BetStatusEntity status) {
         this.placedAt = placedAt;
         this.stake = stake;
         this.winner = winner;
         this.user = user;
         this.game = game;
+        this.status = status;
     }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -42,8 +43,11 @@ function ProfileBet(props) {
 }
 
 function ProfilePage() {
-  const [bets, setBets] = useState([]);
   const [user, setUser] = useState({});
+
+  const [bets, setBets] = useState([]);
+  const [activeBets, setActiveBets] = useState([]);
+  const [expiredBets, setExpiredBets] = useState([]);
 
   const mapBets = (rawBets) => {
     rawBets.forEach((bet) => {
@@ -51,6 +55,17 @@ function ProfilePage() {
         ...prevState,
         bet,
       ]));
+      if (bet.status.status === 'Ongoing') {
+        setActiveBets((prevState) => ([
+          ...prevState,
+          bet,
+        ]));
+      } else {
+        setExpiredBets((prevState) => ([
+          ...prevState,
+          bet,
+        ]));
+      }
     });
   };
 
@@ -62,8 +77,6 @@ function ProfilePage() {
           email: e.data.email,
           money: e.data.money,
         });
-
-        console.log(user);
       })
       .catch((e) => {
         console.log(e);
@@ -93,6 +106,14 @@ function ProfilePage() {
     possibleWinnings: 0,
   }; */
 
+  const changeFilter = (filter) => {
+    if (filter === 'active') {
+      setBets(activeBets);
+    } else {
+      setBets(expiredBets);
+    }
+  };
+
   return (
     <div className={styles.main}>
       <div className={styles.container}>
@@ -112,8 +133,8 @@ function ProfilePage() {
         </div>
         <div className={styles.row}>
           <ButtonGroup>
-            <Button variant="success">Active Bets</Button>
-            <Button variant="light">Expired Bets</Button>
+            <Button variant="success" onClick={() => changeFilter('active')}>Active Bets</Button>
+            <Button variant="light" onClick={() => changeFilter('expired')}>Expired Bets</Button>
           </ButtonGroup>
 
           <div>

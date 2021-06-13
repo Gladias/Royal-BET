@@ -26,7 +26,7 @@ public class UserEntity {
 
     private String email;
 
-    private Double money;
+    private double money;
 
     //TODO: role
 

@@ -1,9 +1,6 @@
 package com.gladias.royalbet.payload;
 
-import com.gladias.royalbet.model.BetEntity;
-import com.gladias.royalbet.model.GameEntity;
-import com.gladias.royalbet.model.OddsEntity;
-import com.gladias.royalbet.model.UserEntity;
+import com.gladias.royalbet.model.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -19,8 +16,7 @@ public class BetResponse {
 
     private final GameEntity game;
     private final OddsEntity odds;
-
-    private boolean isExpi
+    private final BetStatusEntity status;
 
     public static BetResponse of(BetEntity entity) {
         return new BetResponse(entity.getId(),
@@ -28,6 +24,7 @@ public class BetResponse {
                 entity.getStake(),
                 entity.getWinner(),
                 entity.getGame(),
-                entity.getGame().getOdds());
+                entity.getGame().getOdds(),
+                entity.getStatus());
     }
 }
