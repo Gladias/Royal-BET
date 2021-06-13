@@ -1,6 +1,8 @@
 package com.gladias.royalbet.controller;
 
 import com.gladias.royalbet.payload.BetResponse;
+import com.gladias.royalbet.payload.BetsRequest;
+import com.gladias.royalbet.payload.SingleBet;
 import com.gladias.royalbet.service.BetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,5 +30,15 @@ public class BetController {
                                          @RequestParam(defaultValue = "20") Integer size) {
 
         return service.getUserBets(getUsernameFromToken(token), page, size);
+    }
+
+    @PostMapping
+    public void addBets(@CookieValue("token") String token, @RequestBody BetsRequest bets) {
+        var a = bets;
+        String userName = getUsernameFromToken(token);
+
+        for (SingleBet singleBet : bets.getBets()) {
+            service.addBet(userName, singleBet);
+        }
     }
 }

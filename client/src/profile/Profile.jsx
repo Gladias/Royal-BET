@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import axios from 'axios';
@@ -8,7 +8,7 @@ import BASE_API_URL from '../constants/const';
 import styles from './Profile.module.css';
 
 function ProfileBet(props) {
-  const { bet: { game: { league, host, visitors }, winner, stake } } = props;
+  const { bet: { game: { league, hostTeam, visitorsTeam }, winner, stake } } = props;
 
   return (
     <div className={styles['game-row']}>
@@ -17,9 +17,9 @@ function ProfileBet(props) {
       </div>
       <div className={styles.teams}>
         <h4>
-          {host}
+          {hostTeam}
           {' - '}
-          {visitors}
+          {visitorsTeam}
         </h4>
       </div>
       <div className={styles['result-title']}>
@@ -42,34 +42,56 @@ function ProfileBet(props) {
 }
 
 function ProfilePage() {
-  const user = {
-    login: 'Gladias',
-    balance: 14.54,
+  const [bets, setBets] = useState([]);
+  const [user, setUser] = useState({});
+
+  const mapBets = (rawBets) => {
+    rawBets.forEach((bet) => {
+      setBets((prevState) => ([
+        ...prevState,
+        bet,
+      ]));
+    });
   };
 
   useEffect(async () => {
-    axios.get(`${BASE_API_URL}/bets`)
+    axios.get(`${BASE_API_URL}/auth/userData`)
       .then((e) => {
-        console.log(e);
+        setUser({
+          login: e.data.login,
+          email: e.data.email,
+          money: e.data.money,
+        });
+
+        console.log(user);
       })
       .catch((e) => {
         console.log(e);
       });
-  });
 
+    axios.get(`${BASE_API_URL}/bets`)
+      .then((e) => {
+        mapBets(e.data.content);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+  /*
   const game1 = {
     id: 1,
     league: 'Champions League',
     host: 'Juventus',
   };
-
+  */
+  /*
   const bet = {
     id: 1,
     game: game1,
     stake: 50,
     winner: game1.host,
     possibleWinnings: 0,
-  };
+  }; */
 
   return (
     <div className={styles.main}>
@@ -84,7 +106,7 @@ function ProfilePage() {
           <h2>
             Your balance is
             {' '}
-            {user.balance}
+            {user.money}
             $
           </h2>
         </div>
@@ -102,9 +124,7 @@ function ProfilePage() {
           </div>
         </div>
         <div className={styles.box}>
-          <ProfileBet bet={bet} />
-          <ProfileBet bet={bet} />
-          <ProfileBet bet={bet} />
+          {bets.map((bet) => <ProfileBet key={bet.id} bet={bet} />)}
         </div>
       </div>
     </div>

@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -28,12 +29,20 @@ public class DatabaseLoader implements CommandLineRunner {
     private final GameRepository gameRepository;
     private final OddsRepository oddsRepository;
 
+    @Value("${rapidapi.key}")
+    private String key;
+
+    @Value("${rapidapi.host}")
+    private String host;
+
+
     @Override
     public void run(String... args) throws Exception {
-
+        LOG.info("Loader");
     }
 
-    /*
+
+/*
     @Override
     public void run(String... args) throws Exception {
         int numberOfDaysAhead = 3;
@@ -46,8 +55,8 @@ public class DatabaseLoader implements CommandLineRunner {
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://api-nba-v1.p.rapidapi.com/games/date/" + requestDate))
-                    .header("x-rapidapi-key", "")
-                    .header("x-rapidapi-host", "api-nba-v1.p.rapidapi.com")
+                    .header("x-rapidapi-key", key)
+                    .header("x-rapidapi-host", host)
                     .method("GET", HttpRequest.BodyPublishers.noBody())
                     .build();
 
@@ -64,7 +73,13 @@ public class DatabaseLoader implements CommandLineRunner {
                 String visitorsTeam = game.getJSONObject("vTeam").getString("fullName");
 
                 DateTimeFormatter responseFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-                LocalDateTime time = LocalDateTime.parse(game.getString("startTimeUTC"), responseFormatter);
+                LocalDateTime time;
+
+                try {
+                    time = LocalDateTime.parse(game.getString("startTimeUTC"), responseFormatter);
+                } catch (Exception e) {
+                    time = LocalDateTime.parse(requestDate + "T12:00:00.000Z", responseFormatter);
+                }
 
                 Random random = new Random();
 
@@ -95,5 +110,6 @@ public class DatabaseLoader implements CommandLineRunner {
             LOG.info("Games from day " + requestDate + " have been fetched successfully");
         }
     }
-    */
+
+*/
 }

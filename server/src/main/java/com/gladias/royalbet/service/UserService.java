@@ -6,6 +6,7 @@ import com.gladias.royalbet.exception.NoPasswordMatchException;
 import com.gladias.royalbet.exception.UserAlreadyExistException;
 import com.gladias.royalbet.model.UserEntity;
 import com.gladias.royalbet.payload.RegisterRequest;
+import com.gladias.royalbet.payload.UserDto;
 import com.gladias.royalbet.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +23,17 @@ public class UserService {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
 
+    public UserDto getUserData(String username) {
+        UserEntity user = repository.findByLogin(username).get();
+
+        return UserDto.builder()
+                .id(user.getId())
+                .login(user.getLogin())
+                .email(user.getEmail())
+                .money(user.getMoney())
+                .build();
+    }
+
     public void registerUserAccount(@NotNull RegisterRequest registerRequest) throws UserAlreadyExistException,
                                                                      NoPasswordMatchException {
         if (repository.existsByLogin(registerRequest.getLogin())) {
@@ -36,6 +48,7 @@ public class UserService {
                 .login(registerRequest.getLogin())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .email(registerRequest.getEmail())
+                .money(50.0)
                 .build();
 
         repository.save(user);

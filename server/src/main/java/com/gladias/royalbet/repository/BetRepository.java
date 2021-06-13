@@ -9,4 +9,5 @@ import java.util.List;
 public interface BetRepository extends JpaRepository<BetEntity, Long> {
     List<BetEntity> findAllByUser_id(Long userId, Pageable page);
     List<BetEntity> findAllByUserLogin(String login, Pageable page);
+
 }

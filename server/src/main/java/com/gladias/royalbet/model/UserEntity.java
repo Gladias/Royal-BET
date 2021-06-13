@@ -26,6 +26,8 @@ public class UserEntity {
 
     private String email;
 
+    private Double money;
+
     //TODO: role
 
     @OneToMany(mappedBy = "user")

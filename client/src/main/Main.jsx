@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import nextId from 'react-id-generator';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
+import { useHistory } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFutbol, faBasketballBall, faCar, faTrash } from '@fortawesome/free-solid-svg-icons';
 import BASE_API_URL from '../constants/const';
@@ -89,18 +90,7 @@ function MainPage() {
   const [bets, setBets] = useState([]);
   const [games, setGames] = useState([]);
 
-  /*
-  const game1 = {
-    id: 1,
-    league: 'Champions League',
-    host: 'Juventus',
-    visitors: 'Porto',
-    odds: {
-      host: 1.47,
-      tie: 2.05,
-      visitors: 2.56,
-    },
-  }; */
+  const history = useHistory();
 
   const mapGames = (rawGames) => {
     rawGames.forEach((game) => {
@@ -150,6 +140,7 @@ function MainPage() {
   };
 
   const modifyBet = (bet) => (e) => {
+    console.log(games);
     const index = bets.findIndex((element) => element.id === bet.id);
     const value = parseFloat(e.target.value, 10);
     const modifiedBets = bets.slice();
@@ -157,14 +148,40 @@ function MainPage() {
     modifiedBets[index].stake = value;
 
     if (bet.winner === bet.game.host) {
-      modifiedBets[index].possibleWinnings = bet.game.odds.host * value;
+      modifiedBets[index].possibleWinnings = bet.game.odds.hostWinOdds * value;
     } else if (bet.winner === bet.game.visitors) {
-      modifiedBets[index].possibleWinnings = bet.game.odds.visitors * value;
+      modifiedBets[index].possibleWinnings = bet.game.odds.visitorsWinOdds * value;
     } else {
-      modifiedBets[index].possibleWinnings = bet.game.odds.tie * value;
+      modifiedBets[index].possibleWinnings = bet.game.odds.tieOdds * value;
     }
 
     setBets([...modifiedBets]);
+  };
+
+  const submitBets = (e) => {
+    e.preventDefault();
+    const betsDto = [];
+
+    bets.forEach((bet) => {
+      betsDto.push({
+        stake: bet.stake,
+        winner: bet.winner,
+        gameId: bet.game.id,
+      });
+    });
+
+    const request = {
+      bets: betsDto,
+    };
+
+    axios.post(`${BASE_API_URL}/bets`, request)
+      .then((response) => {
+        console.log(response);
+        history.push('/profile');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -196,7 +213,7 @@ function MainPage() {
             Potential win: $
             {possibleWinnings}
           </h2>
-          <button type="button">Confirm bets</button>
+          <button type="button" onClick={submitBets}>Confirm bets</button>
         </div>
       </div>
     </div>

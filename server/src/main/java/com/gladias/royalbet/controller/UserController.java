@@ -20,11 +20,10 @@ public class UserController {
 
     private final UserService service;
 
-    /*
-    @GetMapping("/me")
-    public UserDto getUserData() {
-
-    }*/
+    @GetMapping("/userData")
+    public UserDto getUserData(@CookieValue("token") String token) {
+        return service.getUserData(UserService.getUsernameFromToken(token));
+    }
 
     @PostMapping("/register")
     public void registerUserAccount(@RequestBody @Valid RegisterRequest registerRequest) {

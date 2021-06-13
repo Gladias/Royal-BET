@@ -1,5 +1,6 @@
 package com.gladias.royalbet.model;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +20,7 @@ public class BetEntity {
     private LocalDateTime placedAt;
 
     private Double stake;
-    private Double odds;
+    private String winner;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -28,4 +29,13 @@ public class BetEntity {
     @ManyToOne
     @JoinColumn(name = "game_id")
     private GameEntity game;
+
+    @Builder
+    public BetEntity(LocalDateTime placedAt, Double stake, String winner, UserEntity user, GameEntity game) {
+        this.placedAt = placedAt;
+        this.stake = stake;
+        this.winner = winner;
+        this.user = user;
+        this.game = game;
+    }
 }
