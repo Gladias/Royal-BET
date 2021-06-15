@@ -50,8 +50,7 @@ function BalancePage() {
     }
 
     axios.post(`${BASE_API_URL}/balance`, request)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         history.push('/profile');
       })
       .catch((e) => {

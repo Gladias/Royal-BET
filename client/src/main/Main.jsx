@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import nextId from 'react-id-generator';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { useHistory } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFutbol, faBasketballBall, faCar, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -20,15 +21,13 @@ function CategoryButton(props) {
 }
 
 function GameRow(props) {
-  const { game, game: { hostTeam, visitorsTeam }, onClick } = props;
+  const { game, game: { hostTeam, visitorsTeam, time }, onClick } = props;
   const { odds: { hostWinOdds, tieOdds, visitorsWinOdds } } = game;
-
-  // <div className={styles.score}>1-0</div>
 
   return (
     <div className={styles['game-row']}>
       <div className={styles.league}>
-        <p>NBA</p>
+        <p>{ time.replace('T', ' ') }</p>
       </div>
       <div className={styles.teams}>
         <h4>
@@ -86,9 +85,11 @@ function BetRow(props) {
 }
 
 function MainPage() {
+  const [user, setUser] = useState({});
   const [possibleWinnings, setPossibleWinnings] = useState(0);
   const [bets, setBets] = useState([]);
   const [games, setGames] = useState([]);
+  const [betAvailable, setBetAvailable] = useState(true);
 
   const history = useHistory();
 
@@ -99,8 +100,6 @@ function MainPage() {
         game,
       ]));
     });
-
-    console.log(games);
   };
 
   useEffect(() => {
@@ -111,9 +110,22 @@ function MainPage() {
       .catch((e) => {
         console.log(e);
       });
+
+    axios.get(`${BASE_API_URL}/auth/userData`)
+      .then((e) => {
+        setUser({
+          login: e.data.login,
+          email: e.data.email,
+          money: e.data.money,
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }, []);
 
   useEffect(() => {
+    const accumulatedStakes = bets.reduce((prev, cur) => prev + cur.stake, 0);
     // Calculate accumulated possible winnings for bets
     let accumulatedWinnings = bets.reduce((prev, cur) => prev + cur.possibleWinnings, 0);
     if (Number.isNaN(accumulatedWinnings)) {
@@ -121,6 +133,12 @@ function MainPage() {
     }
 
     setPossibleWinnings(Math.round(accumulatedWinnings * 100) / 100);
+
+    if (accumulatedStakes > user.money) {
+      setBetAvailable(false);
+    } else {
+      setBetAvailable(true);
+    }
   }, [JSON.stringify(bets)]);
 
   const createBet = (game, winner) => {
@@ -144,7 +162,6 @@ function MainPage() {
   };
 
   const modifyBet = (bet) => (e) => {
-    console.log(games);
     const index = bets.findIndex((element) => element.id === bet.id);
     const value = parseFloat(e.target.value, 10);
     const modifiedBets = bets.slice();
@@ -179,8 +196,7 @@ function MainPage() {
     };
 
     axios.post(`${BASE_API_URL}/bets`, request)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         history.push('/profile');
       })
       .catch((error) => {
@@ -217,7 +233,9 @@ function MainPage() {
             Potential win: $
             {possibleWinnings}
           </h2>
-          <button type="button" onClick={submitBets}>Confirm bets</button>
+          {Cookies.get('token') && betAvailable
+            ? <button type="button" active onClick={submitBets}>Confirm bets</button>
+            : <button type="button" disabled onClick={submitBets}>Confirm bets</button>}
         </div>
       </div>
     </div>

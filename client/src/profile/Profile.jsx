@@ -11,16 +11,14 @@ import BASE_API_URL from '../constants/const';
 import styles from './Profile.module.css';
 
 function ProfileBet(props) {
-  const { bet: { game: { league, hostTeam, visitorsTeam }, winner, stake } } = props;
+  const { bet: { game: { time, hostTeam, visitorsTeam }, winner, stake } } = props;
   const { bet: { status: { status, win } } } = props;
-
-  console.log(status, win);
 
   return (
     // eslint-disable-next-line no-nested-ternary
     <div className={`${styles['game-row']} ${(status === 'Expired') ? ((win === 0) ? styles.lostBet : styles.wonBet) : styles.default}`}>
       <div className={styles.league}>
-        <p>{league}</p>
+        <p>{time.replace('T', ' ')}</p>
       </div>
       <div className={styles.teams}>
         <h4>

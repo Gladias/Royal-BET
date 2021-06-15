@@ -39,11 +39,6 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Value("${rapidapi.host}")
     private String host;
-/*
-    @Override
-    public void run(String ...args) throws  Exception {
-
-    }*/
 
 /*
 
@@ -119,7 +114,7 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        int numberOfDaysAhead = 3;
+        int numberOfDaysAhead = 4;
         LocalDateTime day = LocalDateTime.now().minusDays(2);
         DateTimeFormatter requestFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -159,14 +154,14 @@ public class DatabaseLoader implements CommandLineRunner {
 
                 int coinFlip = random.nextInt(2);
 
-                double hostWinOdds, visitorsWinOdds, tieOdds = Math.round(random.nextDouble() + 1.25 * 100) / 100.0;
+                double hostWinOdds, visitorsWinOdds, tieOdds = Math.round((random.nextDouble() + 1.25) * 100) / 100.0;
 
                 if (coinFlip == 1) {
-                    hostWinOdds = Math.round(random.nextDouble() + 2.5 * 100) / 100.0;
-                    visitorsWinOdds = Math.round(random.nextDouble() + 1.0 * 100) / 100.0;
+                    hostWinOdds = Math.round((random.nextDouble() + 2.5) * 100) / 100.0;
+                    visitorsWinOdds = Math.round((random.nextDouble() + 1.0) * 100) / 100.0;
                 } else {
                     hostWinOdds = Math.round((random.nextDouble() + 1.0) * 100) / 100.0;
-                    visitorsWinOdds = Math.round(random.nextDouble() + 2.5 * 100) / 100.0;
+                    visitorsWinOdds = Math.round((random.nextDouble() + 2.5) * 100) / 100.0;
                 }
 
                 OddsEntity odds = new OddsEntity(hostWinOdds, tieOdds, visitorsWinOdds);
@@ -184,4 +179,6 @@ public class DatabaseLoader implements CommandLineRunner {
             LOG.info("Games from day " + requestDate + " have been fetched successfully");
         }
     }
+
 }
+

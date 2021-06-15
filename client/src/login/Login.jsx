@@ -45,7 +45,6 @@ function Login(props) {
   const sendForm = () => {
     axios.post(`${BASE_API_URL}/auth/login`, credentials, { withCredentials: true })
       .then((response) => {
-        console.log(response);
         setToken(Cookies.get('token'));
         history.push('/');
       })
