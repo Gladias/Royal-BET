@@ -55,10 +55,11 @@ public class UserService {
         repository.save(user);
     }
 
-    public void increaseBalance(String username, BalanceRequest request) {
+    public BalanceRequest changeBalance(String username, BalanceRequest request) {
         UserEntity user = repository.findByLogin(username).get();
-        user.setMoney(request.getBalance());
+        user.setMoney(user.getMoney() + request.getBalance());
         repository.save(user);
+        return new BalanceRequest(user.getMoney());
     }
 
     public static String getUsernameFromToken(String jwtToken) {

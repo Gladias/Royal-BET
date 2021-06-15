@@ -8,5 +8,5 @@ import java.util.Optional;
 
 
 public interface GameRepository extends JpaRepository<GameEntity, Long> {
-
+    Optional<GameEntity> findFirstByHostTeamAndVisitorsTeam(String hostTeam, String visitorsTeam);
 }

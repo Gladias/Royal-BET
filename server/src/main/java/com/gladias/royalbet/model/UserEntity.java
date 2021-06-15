@@ -28,8 +28,6 @@ public class UserEntity {
 
     private double money;
 
-    //TODO: role
-
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private Set<BetEntity> bets;

@@ -66,6 +66,8 @@ public class BetService {
                 .status(betStatusEntity)
                 .build();
 
+        user.setMoney(user.getMoney() - requestBet.getStake());
+        userRepository.save(user);
         betStatusRepository.save(betStatusEntity);
         betRepository.save(bet);
     }

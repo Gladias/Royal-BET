@@ -1,10 +1,11 @@
 package com.gladias.royalbet.config;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.gladias.royalbet.model.BetEntity;
+import com.gladias.royalbet.model.BetStatusEntity;
 import com.gladias.royalbet.model.GameEntity;
 import com.gladias.royalbet.model.OddsEntity;
-import com.gladias.royalbet.repository.GameRepository;
-import com.gladias.royalbet.repository.OddsRepository;
+import com.gladias.royalbet.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,6 +21,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Random;
 
 @Component
@@ -28,6 +30,9 @@ public class DatabaseLoader implements CommandLineRunner {
     private static final Logger LOG = LoggerFactory.getLogger(DatabaseLoader.class);
     private final GameRepository gameRepository;
     private final OddsRepository oddsRepository;
+    private final BetRepository betRepository;
+    private final UserRepository userRepository;
+    private final BetStatusRepository betStatusRepository;
 
     @Value("${rapidapi.key}")
     private String key;
@@ -35,18 +40,87 @@ public class DatabaseLoader implements CommandLineRunner {
     @Value("${rapidapi.host}")
     private String host;
 
-
     @Override
-    public void run(String... args) throws Exception {
-        LOG.info("Loader");
+    public void run(String ...args) throws  Exception {
+
     }
 
+/*
 
+    @Override
+    public void run(String ...args) throws Exception {
+        LocalDateTime day = LocalDateTime.now();
+        day = day.minusDays(1);
+        DateTimeFormatter requestFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String requestDate = day.format(requestFormatter);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api-nba-v1.p.rapidapi.com/games/date/" + requestDate))
+                .header("x-rapidapi-key", key)
+                .header("x-rapidapi-host", host)
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        String body;
+        JSONObject json = new JSONObject(response.body());
+
+        JSONArray array = json.getJSONObject("api").getJSONArray("games");
+
+        for (int j = 0; j < array.length(); j++) {
+            var game = array.getJSONObject(j);
+
+            String hostTeam = game.getJSONObject("hTeam").getString("fullName");
+            String visitorsTeam = game.getJSONObject("vTeam").getString("fullName");
+
+            int hostTeamResult = Integer.parseInt(game.getJSONObject("hTeam").getJSONObject("score").getString("points"));
+            int visitorsTeamResult = Integer.parseInt(game.getJSONObject("vTeam").getJSONObject("score").getString("points"));
+
+            String winner;
+
+            if (hostTeamResult > visitorsTeamResult) {
+                winner = hostTeam;
+            } else if (hostTeamResult < visitorsTeamResult) {
+                winner = visitorsTeam;
+            } else {
+                winner = "Tie";
+            }
+
+            GameEntity gameEntity = gameRepository.findFirstByHostTeamAndVisitorsTeam(hostTeam, visitorsTeam).get();
+            List<BetEntity> betEntities = betRepository.findAllByGame_id(gameEntity.getId());
+
+            for (BetEntity betEntity : betEntities) {
+                if (betEntity.getStatus().equals("Expired"))
+                    continue;
+
+                String selectedWinner = betEntity.getWinner();
+                Double stake = betEntity.getStake();
+                double odds;
+
+                if (winner.equals(hostTeam)) {
+                    odds = gameEntity.getOdds().getHostWinOdds();
+                } else if (winner.equals(visitorsTeam)) {
+                    odds = gameEntity.getOdds().getVisitorsWinOdds();
+                } else {
+                    odds = gameEntity.getOdds().getTieOdds();
+                }
+
+                betEntity.getStatus().setStatus("Expired");
+                if (selectedWinner.equals(winner)) {
+                    betEntity.getStatus().setWin(Math.round(stake * odds * 100.0) / 100.0);
+                    betEntity.getUser().setMoney(betEntity.getUser().getMoney() + Math.round(stake * odds * 100.0) / 100.0);
+                    userRepository.save(betEntity.getUser());
+                    betStatusRepository.save(betEntity.getStatus());
+                }
+            }
+        }
+    }
+*/
 /*
     @Override
     public void run(String... args) throws Exception {
         int numberOfDaysAhead = 3;
-        LocalDateTime day = LocalDateTime.now();
+        LocalDateTime day = LocalDateTime.now().minusDays(2);
         DateTimeFormatter requestFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         for (int i = 0; i < numberOfDaysAhead; i++) {
@@ -110,6 +184,5 @@ public class DatabaseLoader implements CommandLineRunner {
             LOG.info("Games from day " + requestDate + " have been fetched successfully");
         }
     }
-
-*/
+ */
 }

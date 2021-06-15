@@ -1,8 +1,10 @@
+/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import axios from 'axios';
+import { useHistory } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import BASE_API_URL from '../constants/const';
@@ -10,9 +12,13 @@ import styles from './Profile.module.css';
 
 function ProfileBet(props) {
   const { bet: { game: { league, hostTeam, visitorsTeam }, winner, stake } } = props;
+  const { bet: { status: { status, win } } } = props;
+
+  console.log(status, win);
 
   return (
-    <div className={styles['game-row']}>
+    // eslint-disable-next-line no-nested-ternary
+    <div className={`${styles['game-row']} ${(status === 'Expired') ? ((win === 0) ? styles.lostBet : styles.wonBet) : styles.default}`}>
       <div className={styles.league}>
         <p>{league}</p>
       </div>
@@ -23,21 +29,59 @@ function ProfileBet(props) {
           {visitorsTeam}
         </h4>
       </div>
-      <div className={styles['result-title']}>
-        <h4>
-          Winner
-          {' '}
-          {winner}
-        </h4>
-      </div>
-      <div className={styles.result}>
-        <h3>
-          Bet size:
-          {' '}
-          {stake}
-          $
-        </h3>
-      </div>
+      {status !== 'Expired'
+        ? (
+          <>
+            <div className={styles['result-title']}>
+              <h4>
+                Winner
+                {' '}
+                {winner}
+              </h4>
+            </div>
+            <div className={styles.result}>
+              <h3>
+                Bet size:
+                {' '}
+                {stake}
+                $
+              </h3>
+            </div>
+          </>
+        )
+        : (
+          <>
+            <div className={styles['result-title']}>
+              {win === 0
+                ? (
+                  <h4>
+                    You have lost
+                  </h4>
+                )
+                : (
+                  <h4>
+                    You have won!
+                  </h4>
+                )}
+            </div>
+            <div className={styles.result}>
+              {win === 0
+                ? (
+                  <h3>
+                    Try again
+                  </h3>
+                )
+                : (
+                  <h3>
+                    Profit
+                    {' '}
+                    {win}
+                    $
+                  </h3>
+                )}
+            </div>
+          </>
+        )}
     </div>
   );
 }
@@ -48,6 +92,8 @@ function ProfilePage() {
   const [bets, setBets] = useState([]);
   const [activeBets, setActiveBets] = useState([]);
   const [expiredBets, setExpiredBets] = useState([]);
+
+  const history = useHistory();
 
   const mapBets = (rawBets) => {
     rawBets.forEach((bet) => {
@@ -114,6 +160,10 @@ function ProfilePage() {
     }
   };
 
+  const goToBalance = () => {
+    history.push('/balance');
+  };
+
   return (
     <div className={styles.main}>
       <div className={styles.container}>
@@ -138,10 +188,10 @@ function ProfilePage() {
           </ButtonGroup>
 
           <div>
-            <button type="button">
+            <button type="button" onClick={goToBalance}>
               <FontAwesomeIcon icon={faPlusCircle} />
             </button>
-            <h3>Increase balance</h3>
+            <h3>Change balance</h3>
           </div>
         </div>
         <div className={styles.box}>

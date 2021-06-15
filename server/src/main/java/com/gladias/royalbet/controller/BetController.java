@@ -34,7 +34,6 @@ public class BetController {
 
     @PostMapping
     public void addBets(@CookieValue("token") String token, @RequestBody BetsRequest bets) {
-        var a = bets;
         String userName = getUsernameFromToken(token);
 
         for (SingleBet singleBet : bets.getBets()) {

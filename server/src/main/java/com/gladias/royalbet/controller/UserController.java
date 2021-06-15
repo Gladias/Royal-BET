@@ -4,6 +4,7 @@ package com.gladias.royalbet.controller;
 import com.gladias.royalbet.exception.NoPasswordMatchException;
 import com.gladias.royalbet.exception.UserAlreadyExistException;
 import com.gladias.royalbet.payload.BalanceRequest;
+import com.gladias.royalbet.payload.BetsRequest;
 import com.gladias.royalbet.payload.RegisterRequest;
 import com.gladias.royalbet.payload.UserDto;
 import com.gladias.royalbet.service.UserService;
@@ -36,7 +37,7 @@ public class UserController {
     }
 
     @PostMapping("/balance")
-    public void increaseBalance(@CookieValue("token") String token, @RequestBody BalanceRequest request) {
-        service.increaseBalance(UserService.getUsernameFromToken(token), request);
+    public BalanceRequest changeBalance(@CookieValue("token") String token, @RequestBody BalanceRequest balance) {
+        return service.changeBalance(UserService.getUsernameFromToken(token), balance);
     }
 }

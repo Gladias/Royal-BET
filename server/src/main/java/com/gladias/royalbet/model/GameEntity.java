@@ -1,9 +1,12 @@
 package com.gladias.royalbet.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -32,8 +35,8 @@ public class GameEntity {
         this.odds = odds;
     }
 
-    @OneToMany(mappedBy = "game")
     @JsonIgnore
+    @OneToMany(mappedBy = "game")
     private Set<BetEntity> bets;
 
     @OneToOne

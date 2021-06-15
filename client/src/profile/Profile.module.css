@@ -75,3 +75,11 @@
 .result {
     grid-area: result;
 }
+
+.wonBet {
+    background-color: #6ac962;
+}
+
+.lostBet {
+    background-color: #cc5d59;
+}

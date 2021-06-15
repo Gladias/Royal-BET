@@ -1,13 +1,11 @@
 package com.gladias.royalbet.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 
 @Data
@@ -28,8 +26,4 @@ public class OddsEntity {
         this.tieOdds = tieOdds;
         this.visitorsWinOdds = visitorsWinOdds;
     }
-
-    @OneToOne(mappedBy = "odds")
-    @JsonIgnore
-    private GameEntity game;
 }

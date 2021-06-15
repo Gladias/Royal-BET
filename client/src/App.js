@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import Header from './header/Header';
 import MainPage from './main/Main';
+import BalancePage from './balance/Balance';
 import Login from './login/Login';
 import Register from './register/Register';
 import ResetPassword from './ResetPassword/ResetPassword';
@@ -19,6 +20,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={MainPage} />
         <Route path="/profile" component={ProfilePage} />
+        <Route path="/balance" component={BalancePage} />
         <Route path="/login">
           <Login setToken={setToken} />
         </Route>
