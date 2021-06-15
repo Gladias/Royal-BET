@@ -39,11 +39,11 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Value("${rapidapi.host}")
     private String host;
-
+/*
     @Override
     public void run(String ...args) throws  Exception {
 
-    }
+    }*/
 
 /*
 
@@ -116,7 +116,7 @@ public class DatabaseLoader implements CommandLineRunner {
         }
     }
 */
-/*
+
     @Override
     public void run(String... args) throws Exception {
         int numberOfDaysAhead = 3;
@@ -184,5 +184,4 @@ public class DatabaseLoader implements CommandLineRunner {
             LOG.info("Games from day " + requestDate + " have been fetched successfully");
         }
     }
- */
 }

@@ -16,8 +16,7 @@
     border: 2px solid #EBCA33;
     border-radius: 2rem;
     height: 70%;
-    width: 40%;
-    
+    width: 50%;
 
     display: flex;
     flex-direction: column;
@@ -26,7 +25,7 @@
 
     font-family: "Futura Italic";
     color: #EBCA33;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
 }
 
 .form-group a {
@@ -34,6 +33,10 @@
     color: white;
     text-decoration: underline;
     text-decoration-color: #EBCA33;
+}
+
+.form-control {
+    font-size: 1.3rem;
 }
 
 .form-group a:hover{
@@ -60,4 +63,14 @@
 .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
     background-color: #ffc107;
     border-color: #000000;
+}
+
+@media only screen and (max-device-width: 1024px) {
+    .authForm {
+        width: 95%;
+    }
+
+    .form-control {
+        font-size: 1rem;
+    }
 }

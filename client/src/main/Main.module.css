@@ -140,6 +140,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    overflow-y: auto;
 }
 
 .bet {
@@ -158,20 +159,76 @@
 
 .bet div input {
     width: 20%;
+    height: 80%;
 }
 
 .footer {
-    align-self: flex-end;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     color: #EBCA33;
+    margin-bottom: 5%;
 }
 
 .footer button {
     background-color: #EBCA33;
     border: 1px solid black;
     border-radius: 0.5rem;
+}
+
+@media only screen and (max-device-width: 1024px) {
+    h1, h2 {
+        font-size: 1.6rem;
+    }
+
+    h3 {
+        font-size: 1.4rem;
+    }
+
+    h4 {
+        font-size: 1.3rem;
+    }
+
+    .main {
+        flex-direction: column;
+        overflow: auto;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .categories {
+        justify-content: center;
+    }
+
+    .first-column {
+
+        width: 95%;
+        height: 85%;
+        overflow-y: auto;
+    }
+
+    .second-column {
+        width: 95%;
+        height: auto;
+    }
+
+    .games {
+        width: 100%;
+        justify-content: center;
+        overflow: visible;
+    }
+
+    .game-row {
+        font-size: 0.7rem;
+    }
+
+    .teams, .result-title {
+        font-size: 0.7rem;
+    }
+
+    .footer {
+        width: 100%;
+    }
 }
 
 /* Scroll styles */

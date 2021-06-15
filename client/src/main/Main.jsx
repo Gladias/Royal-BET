@@ -59,7 +59,7 @@ function GameRow(props) {
 }
 
 function BetRow(props) {
-  const { bet: { game: { host, visitors }, winner }, onChange, onClick } = props;
+  const { bet: { game: { hostTeam, visitorsTeam }, winner }, onChange, onClick } = props;
   const { bet } = props;
 
   return (
@@ -68,18 +68,18 @@ function BetRow(props) {
         <button type="button" onClick={() => onClick(bet)}>
           <FontAwesomeIcon icon={faTrash} />
         </button>
-        <h3>
-          {host}
+        <h5>
+          {hostTeam}
           {' - '}
-          {visitors}
-        </h3>
+          {visitorsTeam}
+        </h5>
       </div>
       <div>
         <h3>
           {'Winner '}
           {winner}
         </h3>
-        <Form.Control onChange={onChange(bet)} type="number" size="sm" required />
+        <Form.Control onChange={onChange(bet)} type="number" size="sm" min="1" required />
       </div>
     </div>
   );
@@ -115,8 +115,12 @@ function MainPage() {
 
   useEffect(() => {
     // Calculate accumulated possible winnings for bets
-    const accumulatedWinnings = bets.reduce((prev, cur) => prev + cur.possibleWinnings, 0);
-    setPossibleWinnings(accumulatedWinnings);
+    let accumulatedWinnings = bets.reduce((prev, cur) => prev + cur.possibleWinnings, 0);
+    if (Number.isNaN(accumulatedWinnings)) {
+      accumulatedWinnings = 0;
+    }
+
+    setPossibleWinnings(Math.round(accumulatedWinnings * 100) / 100);
   }, [JSON.stringify(bets)]);
 
   const createBet = (game, winner) => {

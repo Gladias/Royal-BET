@@ -136,21 +136,6 @@ function ProfilePage() {
         console.log(e);
       });
   }, []);
-  /*
-  const game1 = {
-    id: 1,
-    league: 'Champions League',
-    host: 'Juventus',
-  };
-  */
-  /*
-  const bet = {
-    id: 1,
-    game: game1,
-    stake: 50,
-    winner: game1.host,
-    possibleWinnings: 0,
-  }; */
 
   const changeFilter = (filter) => {
     if (filter === 'active') {

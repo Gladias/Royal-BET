@@ -46,3 +46,17 @@
 .buttons button {
     width: 40%;
 }
+
+@media only screen and (max-device-width: 1024px) {
+    h1 {
+        font-size: 1.4rem;
+    }
+
+    .row input {
+        width: 40%;
+    }
+
+    .buttons {
+        width: 100%;
+    }
+}

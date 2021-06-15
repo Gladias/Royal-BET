@@ -10,7 +10,7 @@ function ResetPassword() {
         <h1>Reset password</h1>
         <div>
           <h5>
-            Tell us email address associated with your account, and we`&apos`ll send
+            Tell us email address associated with your account, and we will send
             you an email with link to reset your password.
           </h5>
         </div>

@@ -83,3 +83,26 @@
 .lostBet {
     background-color: #cc5d59;
 }
+
+@media only screen and (max-device-width: 1024px) {
+    h2 {
+        font-size: 1.4rem;
+    }
+
+    h3, h4 {
+        font-size: 1.2rem;
+    }
+
+    .container {
+        width: 90%;
+    }
+
+    .row {
+        justify-content: space-evenly;
+        
+    }
+
+    .game-row {
+
+    }
+}
