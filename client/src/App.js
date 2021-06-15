@@ -1,24 +1,33 @@
-import logo from './logo.svg';
+/* eslint-disable react/jsx-filename-extension */
 import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import Header from './header/Header';
+import MainPage from './main/Main';
+import BalancePage from './balance/Balance';
+import Login from './login/Login';
+import Register from './register/Register';
+import ResetPassword from './ResetPassword/ResetPassword';
+import ProfilePage from './profile/Profile';
 
 function App() {
+  const [token, setToken] = useState(Cookies.get('token'));
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Header token={token} setToken={setToken} />
+      <Switch>
+        <Route exact path="/" component={MainPage} />
+        <Route path="/profile" component={ProfilePage} />
+        <Route path="/balance" component={BalancePage} />
+        <Route path="/login">
+          <Login setToken={setToken} />
+        </Route>
+        <Route path="/register" component={Register} />
+        <Route path="/reset-password" component={ResetPassword} />
+      </Switch>
+    </Router>
   );
 }
 

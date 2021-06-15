@@ -1,0 +1,24 @@
+/*TODO: Styled components*/
+
+.registerLink {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.registerLink h5 {
+    color:white;
+    font-size: 1.1rem;
+}
+
+.registerLink a {
+    font-size: 1.3rem;
+    color: white;
+    text-decoration: underline;
+    text-decoration-color: #EBCA33;
+}
+
+.registerLink a:hover {
+    color: #ffc107;
+}
